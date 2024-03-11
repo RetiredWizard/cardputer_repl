@@ -1,4 +1,4 @@
-# tdeck_repl
+# cardputer_repl
 M5Stack Cardputer Virtual REPL
 
 Copying code.py and the /lib/ folder from this repository to the M5Stack [Cardputer](https://shop.m5stack.com/products/m5stack-cardputer-kit-w-m5stamps3) will present a virtual REPL on the device keyboard when it boots. Using the FN key there are up/down/left/right keys for accessing the command line history and edit functions.  
