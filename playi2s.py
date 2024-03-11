@@ -34,7 +34,7 @@ except:
     try:
         from cardputer_repl import Pydos_ui
     except:
-        from supervisor import runtime as Pydos_ui
+        from sys import stdin as Pydos_ui
 
 import digitalio
 import storage
@@ -84,7 +84,10 @@ print("Press Q to quit")
 try:
     a.play(wav)
     while True:
-        cmnd = Pydos_ui.read_keyboard(1)
+        if 'read_keyboard' in dir(Pydos_ui):
+            cmnd = Pydos_ui.read_keyboard(1)
+        else:
+            cmnd = Pydos_ui.read(1)
         if cmnd in "qQ":
             a.stop()
             break
