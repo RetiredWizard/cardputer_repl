@@ -29,9 +29,12 @@ except:
     except:
         pass
 try:
-    from cardputer_repl import Pydos_ui
+    from pydos_ui import Pydos_ui
 except:
-    from supervisor import runtime as Pydos_ui
+    try:
+        from cardputer_repl import Pydos_ui
+    except:
+        from supervisor import runtime as Pydos_ui
 
 import digitalio
 import storage
@@ -80,13 +83,11 @@ else:
 print("Press Q to quit")
 try:
     a.play(wav)
-    cmnd = ""
-    while cmnd.upper() != "Q":
-        if Pydos_ui.serial_bytes_available:
-            cmnd = Pydos_ui.read_keyboard(1)
-            if cmnd in "qQ":
-                a.stop()
-                break
+    while True:
+        cmnd = Pydos_ui.read_keyboard(1)
+        if cmnd in "qQ":
+            a.stop()
+            break
 except:
     pass
 f.close()
