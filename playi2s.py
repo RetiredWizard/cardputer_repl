@@ -24,9 +24,12 @@ except:
 try:
     import adafruit_sdcard
 except:
-    pass
+    try:
+        import sdcardio as adafruit_sdcard
+    except:
+        pass
 try:
-    from pydos_ui import Pydos_ui
+    from cardputer_repl import Pydos_ui
 except:
     from supervisor import runtime as Pydos_ui
 
@@ -36,7 +39,9 @@ import audiocore
 import audiobusio
 fname = input("Filename:")
 try:
-    if "SD_SCK" in dir(board):
+    if "SD_SPI" in dir(board):
+        spi = board.SD_SPI()
+    elif "SD_SCK" in dir(board):
         spi = bitbangio.SPI(board.SD_SCK,board.SD_MOSI,board.SD_MISO)
     else:
         spi = bitbangio.SPI(board.SCK,board.MOSI,board.MISO)
@@ -48,7 +53,12 @@ try:
     else:
         cs = digitalio.DigitalInOut(board.CS)
 
-    sd = adafruit_sdcard.SDCard(spi,cs)
+    try:
+        sd = adafruit_sdcard.SDCard(spi,cs)
+    except:
+        cs.deinit()
+        sd = adafruit_sdcard.SDCard(spi,board.SD_CS)
+
     vfs = storage.VfsFat(sd)
     storage.mount(vfs,'/sd')
     print('SD card mounted on /sd')
@@ -68,9 +78,10 @@ try:
     a.play(wav)
     cmnd = ""
     while cmnd.upper() != "Q":
-        if Pydos_ui.serial_bytes_available():
+        if Pydos_ui.serial_bytes_available:
             cmnd = Pydos_ui.read_keyboard(1)
             if cmnd in "qQ":
+                a.stop()
                 break
 except:
     pass
