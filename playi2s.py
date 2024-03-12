@@ -46,6 +46,8 @@ try:
         spi = board.SD_SPI()
     elif "SD_SCK" in dir(board):
         spi = bitbangio.SPI(board.SD_SCK,board.SD_MOSI,board.SD_MISO)
+    elif "SPI" in dir(board):
+        spi = board.SPI()
     else:
         spi = bitbangio.SPI(board.SCK,board.MOSI,board.MISO)
 
@@ -60,7 +62,12 @@ try:
         sd = adafruit_sdcard.SDCard(spi,cs)
     except:
         cs.deinit()
-        sd = adafruit_sdcard.SDCard(spi,board.SD_CS)
+        if "SD_CS" in dir(board):
+            sd = adafruit_sdcard.SDCard(spi,board.SD_CS)
+        elif "SDCARD_CS" in dir(board):
+            sd = adafruit_sdcard.SDCard(spi,board.SDCARD_CS)
+        else:
+            sd = adafruit_sdcard.SDCard(spi,board.CS)
 
     vfs = storage.VfsFat(sd)
     storage.mount(vfs,'/sd')
