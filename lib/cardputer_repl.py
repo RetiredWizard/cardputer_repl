@@ -7,7 +7,12 @@ import terminalio
 import time
 from supervisor import runtime
 
-import m5stackcardputerkbd as cardputer
+# Temporary until new cardputer DeMux matrix keyboard PR is merged
+try:
+    from keypad import DemuxKeyMatrix
+    import m5stackcardputerkbd as cardputer
+except:
+    import m5stackcardputerkbd_old as cardputer
 
 class PyDOS_UI:
 
