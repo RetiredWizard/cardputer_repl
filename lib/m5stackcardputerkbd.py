@@ -13,9 +13,8 @@ CircuitPython M5Stack Cardputer Matrix Keyboard driver.
 
 
 import board
-import digitalio
 import keypad
-from adafruit_debouncer import Debouncer
+import keypad_demux
 import time
 
 class Cardputer():
@@ -47,7 +46,7 @@ class Cardputer():
             ("0",")",""), ("=","+","")
         ]
         
-        self.keyboard = keypad.DemuxKeyMatrix(row_pins, column_pins)
+        self.keyboard = keypad_demux.DemuxKeyMatrix(row_pins, column_pins)
         
         self._last_key_number = None
         self._pressedkey = None

@@ -9,7 +9,7 @@ from supervisor import runtime
 
 # Temporary until new cardputer DeMux matrix keyboard PR is merged
 try:
-    from keypad import DemuxKeyMatrix
+    from keypad_demux import DemuxKeyMatrix
     import m5stackcardputerkbd as cardputer
 except:
     import m5stackcardputerkbd_old as cardputer

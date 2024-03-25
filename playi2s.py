@@ -76,6 +76,7 @@ except:
     pass
 f = open(fname, "rb")
 wav = audiocore.WaveFile(f)
+a = None
 if 'I2S_BIT_CLOCK' in dir(board):
     # Temporary fix until board defintion update is merged
     try:
@@ -87,18 +88,20 @@ elif 'SPEAKER_SCK' in dir(board):
 else:
     print('No I2S pins defined on the board')
 
-print("Press Q to quit")
-try:
-    a.play(wav)
-    while True:
-        if 'read_keyboard' in dir(Pydos_ui):
-            cmnd = Pydos_ui.read_keyboard(1)
-        else:
-            cmnd = Pydos_ui.read(1)
-        if cmnd in "qQ":
-            a.stop()
-            break
-except:
-    pass
+if a is not None:
+    print("Press Q to quit")
+    try:
+        a.play(wav)
+        while True:
+            if 'read_keyboard' in dir(Pydos_ui):
+                cmnd = Pydos_ui.read_keyboard(1)
+            else:
+                cmnd = Pydos_ui.read(1)
+            if cmnd in "qQ":
+                a.stop()
+                break
+    except:
+        pass
+        
+    a.deinit()
 f.close()
-a.deinit()
