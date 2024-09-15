@@ -83,6 +83,8 @@ if 'I2S_BIT_CLOCK' in dir(board):
         a = audiobusio.I2SOut(board.I2S_BIT_CLOCK, board.I2S_WORD_SELECT, board.I2S_DATA)
     except:
         a = audiobusio.I2SOut(board.I2S_BIT_CLOCK, board.I2S_WORD_SELECT, board.IS2_DATA)
+elif 'I2S_BCK' in dir(board):
+    a = audiobusio.I2SOut(board.I2S_BCK, board.I2S_WS, board.I2S_DOUT)
 elif 'SPEAKER_SCK' in dir(board):
     a = audiobusio.I2SOut(board.SPEAKER_SCK, board.SPEAKER_WS, board.SPEAKER_DOUT)
 else:
